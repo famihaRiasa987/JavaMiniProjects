@@ -1,4 +1,4 @@
-enum Denomination {
+enum Denomination{
     PENNY,
     NICKEL,
     DIME,
@@ -9,13 +9,13 @@ public class Coin{
     private int year;
     
 
-    public Coin(Denomination denomination, int year) {
+    public Coin(Denomination denomination, int year){
         this.denomination = denomination;  
         this.year = year;
     }
 
-   public double getValue() {
-    return switch (denomination) {
+   public double getValue(){
+    return switch(denomination){
         case PENNY -> 0.01;
         case NICKEL -> 0.05;
         case DIME -> 0.10;
@@ -24,9 +24,10 @@ public class Coin{
     
 }
 
-    public int getYear() {
+    public int getYear(){
         return year;
-    }}
+    }
+    }
 class Purse{
     public static void main(String[] args){
         Coin[] purse = new Coin[5];
@@ -39,12 +40,16 @@ class Purse{
         int earliestYear = Integer.MAX_VALUE;
         int latestYear = Integer.MIN_VALUE;
         for(Coin coin : purse){
+
             totalValue += coin.getValue();
             int year = coin.getYear();
-            if (year < earliestYear) {
+
+            if (year < earliestYear)
+            {
                 earliestYear = year;
             }
-            if (year > latestYear) {
+            if (year > latestYear)
+            {
                 latestYear = year;
             }
         }
