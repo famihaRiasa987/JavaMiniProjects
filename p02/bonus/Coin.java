@@ -1,4 +1,4 @@
-enum Denomination{
+public enum Denomination{
     PENNY,
     NICKEL,
     DIME,
@@ -6,10 +6,11 @@ enum Denomination{
 
     private final double value;
     public double getValue(){
+        return value;
 
     }
     public String toString(){
-
+        return name().toLowerCase();
     }
     private Denomination(double value){
         this.value = value;
