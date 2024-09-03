@@ -10,7 +10,6 @@ public class Coin{
     public double getValue() {
         return denomination.getValue();  
     }
-
     public double getWeight(){
         if(denomination == Denomination.PENNY){
             if(year < 1983){
@@ -46,7 +45,6 @@ public class Coin{
     public String toString() {
         return "Year: " + year + ", Denomination: " + denomination.toString();
     }
-
     public int getYear() {
         return year;
     }
