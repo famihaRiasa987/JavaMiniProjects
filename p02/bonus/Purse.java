@@ -10,7 +10,7 @@ class Purse{
         int earliestYear = Integer.MAX_VALUE;
         int latestYear = Integer.MIN_VALUE;
         for(Coin coin : purse){
-            System.out.println(toString());
+            System.out.println(coin);
             totalValue += coin.getValue();
             int year = coin.getYear();
 

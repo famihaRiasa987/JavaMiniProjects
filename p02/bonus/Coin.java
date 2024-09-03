@@ -14,7 +14,7 @@ public class Coin{
     public int getYear(){
         return year;
     }
-    public int toString(){
-        return "Year: " + year + ", Denomination: " + denomination.toString();
+    public String toString(){
+        return "Year: " + year + ": " + denomination.toString();
     }
     }
