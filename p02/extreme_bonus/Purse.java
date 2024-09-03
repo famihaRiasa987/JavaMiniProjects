@@ -27,6 +27,6 @@ public class Purse {
             }
         }
         System.out.println("You have $" + String.format("%.2f", totalValue));
-        System.out.println("Earliest year is: " + earliestYear + " to latest year is: " + latestYear+" weighing "+ String.format("%.3f", totalWeight) + " grams");
+        System.out.println("Earliest year is: " + earliestYear + " to latest year is: " + latestYear+" weighing "+ String.format("%.2f", totalWeight) + " grams");
     }
 }
