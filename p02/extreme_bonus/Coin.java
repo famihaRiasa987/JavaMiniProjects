@@ -39,11 +39,11 @@ public class Coin{
             }
         }
         else{
-            throw new IllegalArgumentException("Unknown denomination: " + denomination);
+            throw new IllegalArgumentException("DONT KNOW: " + denomination);
         }
     }
     public String toString() {
-        return "Year: " + year + ", Denomination: " + denomination.toString();
+        return "Year: " + year + " : " + denomination.toString();
     }
     public int getYear() {
         return year;
