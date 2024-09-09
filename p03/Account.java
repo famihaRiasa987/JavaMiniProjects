@@ -4,7 +4,7 @@ public class Account{
 
     public Account(){
         this.accountNumber = nextAccountNumber;
-        accountNumber++;
+        nextAccountNumber++;
     }
     public int getAccountNumber(){
         return this.accountNumber;
