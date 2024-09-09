@@ -6,22 +6,17 @@ public class Student{
     private Account account;
 
 
-    public Student(String name, int id, String myemail){
+    public Student(String name, int id, String email){
 
     if (!(email.endsWith("@mavs.uta.edu") || email.endsWith("@uta.edu"))) {
         throw new IllegalArgumentException("Non-UTA email address: " + email);
-    }
-
-        else{      
+    }    
 
         this.name = name;
         this.id = id;
         this.email = email;
         this.account = new Account();
 
-
-        }
-        
     }
     public String requestMedia(Media media){
         return account.play(media);
@@ -29,7 +24,7 @@ public class Student{
 
     @Override
     public String toString(){
-        return this.name +" ("+this.id +","+ this.email+","+ this.account.getAccountNumber()+")";
+        return this.name +" ("+this.id +","+ this.email+", Account #"+ this.account.getAccountNumber()+")";
     }
 
 }
