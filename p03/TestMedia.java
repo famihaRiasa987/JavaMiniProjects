@@ -26,7 +26,7 @@ public class TestMedia {
             failed = true; 
         }
         if (failed) {
-            System.exit(1); 
+            System.exit(-1); 
         }
         System.exit(0);
     }

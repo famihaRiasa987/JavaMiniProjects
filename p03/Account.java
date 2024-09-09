@@ -3,12 +3,11 @@ public class Account{
     private static int nextAccountNumber = 1; 
 
     public Account(){
-        private int account_number;
-        this.nextAccountNumber = account_number;
-        account_number++;
+        this.accountNumber = nextAccountNumber;
+        accountNumber++;
     }
     public int getAccountNumber(){
-        return this.account_number;
+        return this.accountNumber;
     }
 
     public String play(Media media){
