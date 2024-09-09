@@ -9,7 +9,7 @@ public class Media{
 
     @Override
     public String toString(){
-        return (this.title + "("+ this.url + ")");
+        return this.title + " ("+ this.url + ")";
     }
     
 }
