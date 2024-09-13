@@ -44,10 +44,10 @@ public class TestStudent{
             failed = true;
         }
 
-        Media media = new Media("Title", "URL");
+        Media media = new Media("Title", "URL", 9 );
         Student studentObj3 = new Student("Famiha", 1001981764, "fxr1764@mavs.uta.edu"); 
 
-        if(!(studentObj3.requestMedia(media).equals("Playing Title (URL)"))){
+        if(!(studentObj3.requestMedia(media).equals("Playing Title (URL) 9"))){
             System.err.println("FAIL: expected: Playing Title (URL) actual: " + studentObj3.requestMedia(media));
             failed = true;
         }
