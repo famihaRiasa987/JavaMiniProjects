@@ -18,13 +18,13 @@ public class Alacarte extends Account{
         return this.pointsRemaining;
     }
 
-   // @Override
+    @Override
     public String play(Media media){
         if(this.pointsRemaining>media.getPoints()){
-            return "Playing ";
+            return "Playing "+ media;
         }
         else{
-            return "Buy more points: Requires ";
+            return "Buy more points: Requires "+ media.getPoints()+" points you have"+ this.pointsRemaining;
         }
     }                    
 
