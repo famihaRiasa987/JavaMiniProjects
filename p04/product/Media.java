@@ -1,6 +1,5 @@
 package product;
 
-
 public class Media{
     private String title;
     private String url;
