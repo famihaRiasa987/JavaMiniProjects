@@ -20,6 +20,7 @@ public class Alacarte extends Account{
 
     @Override
     public String play(Media media){
+        this.pointsRemaining = media.getPoints() - this.pointsRemaining;
         if(this.pointsRemaining>media.getPoints()){
             return "Playing "+ media;
         }
