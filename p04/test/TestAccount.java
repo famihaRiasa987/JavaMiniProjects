@@ -1,12 +1,11 @@
 package test;
-import customer.Account;
 import product.Media;
-
+import customer.Unlimited;
 public class TestAccount{
  public static void main(String[] args) {
     boolean failed = false;
-    Account myaccount1 = new Account();
-    Account myaccount2 = new Account();
+    Unlimited myaccount1 = new Unlimited();
+    Unlimited myaccount2 = new Unlimited();
 
     if(myaccount1.getAccountNumber()!=1 & myaccount2.getAccountNumber()!=2){
         System.err.println("Fail: Expected Account Numbers 1 and 2");
