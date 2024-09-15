@@ -15,8 +15,8 @@ public abstract class Account {
     private static int nextAccountNumber = 1;
 
     /**
-     * Constructs an Account with unique account no.
-     * Increments the account number by 1 afterwards.
+     * Constructs an Account with a unique account number.
+     * Increments the account number counter for future instances.
      * 
      * @since 1.0
      */
@@ -26,7 +26,7 @@ public abstract class Account {
     }
 
     /**
-     * Returns account number of account.
+     * Returns the account number of this account.
      * 
      * @return the account number
      * @since 1.0
@@ -36,12 +36,11 @@ public abstract class Account {
     }
 
     /**
-     * Abstract method to play media.
+     * Abstract method to play media. Each subclass must provide an implementation.
      * 
      * @param media the Media object to be played
      * @return a message indicating the result of the play operation
      * @since 1.0
-     * 
      */
     public abstract String play(Media media);
 }

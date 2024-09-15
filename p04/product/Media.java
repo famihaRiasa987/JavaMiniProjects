@@ -1,28 +1,27 @@
 package product;
 
 /**
- * Media class: a title, URL, and associated points.
- * This class provides methods to retrieve the points required to purchase media entertainment and a string representation of the media.
+ * Represents a media item with a title, URL, and points required to access it.
+ * Provides details about the media and the points required.
  * 
  * @author Famiha Riasa
  * @version 0.2
  * @since 1.0
  * 
- */ 
+ */
 public class Media {
     private String title;
     private String url;
     private int points;
 
     /**
-     * Creates a Media instance.
+     * Constructs a Media object with the specified title, URL, and points.
      * 
-     * @param title the string title of the media
-     * @param url the string URL of the media
-     * @param points the integer points required to purchase the media
+     * @param title the title of the media
+     * @param url the URL of the media
+     * @param points the points required to access the media
      * @since 1.0
-     * 
-     */ 
+     */
     public Media(String title, String url, int points) {
         this.title = title;
         this.url = url;
@@ -30,24 +29,43 @@ public class Media {
     }
 
     /**
-     * Returns the number of points required to purchase this media item.
+     * Returns the title of the media.
      * 
-     * @return the number of points needed
+     * @return the title of the media
      * @since 1.0
-     * 
-     */ 
-    public int getPoints() {
-        return this.points;
+     */
+    public String getTitle() {
+        return title;
     }
 
     /**
-     * Returns a string representation of the media item, including its title, URL, and points.
+     * Returns the URL of the media.
      * 
-     * @return the string representation of the media item
+     * @return the URL of the media
      * @since 1.0
-     */ 
+     */
+    public String getUrl() {
+        return url;
+    }
+
+    /**
+     * Returns the points required to access the media.
+     * 
+     * @return the points required
+     * @since 1.0
+     */
+    public int getPoints() {
+        return points;
+    }
+
+    /**
+     * Returns a string representation of the media, including its title and URL.
+     * 
+     * @return the string representation of the media
+     * @since 1.0
+     */
     @Override
     public String toString() {
-        return this.title + " (" + this.url + ") " + this.points;
+        return title + " (" + url + ") " + points;
     }
 }

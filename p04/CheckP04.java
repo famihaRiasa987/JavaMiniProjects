@@ -10,8 +10,8 @@ public class CheckP04 {
 
         MoesImpl moes = new MoesImpl();
 
-        moes.addStudent(new Student("A. Media Hound", 1234567890, "amh7890@uta.edu", true)); // Alacarte
-        moes.addStudent(new Student("Casual Carl", 1234567891, "cc7891@uta.edu", false)); // Unlimited
+        moes.addStudent(new Student("A. Media Hound", 1234567890, "amh7890@uta.edu", false)); // Alacarte
+        moes.addStudent(new Student("Casual Carl", 1234567891, "cc7891@uta.edu", true)); // Unlimited
 
         System.out.print("Buy how many points for Casual Carl? ");
         int pointsToBuy = in.nextInt();

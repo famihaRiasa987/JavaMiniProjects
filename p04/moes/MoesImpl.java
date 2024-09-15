@@ -9,33 +9,35 @@ import product.Media;
 import java.util.ArrayList;
 
 /**
- * Implementation of Moes interface.
+ * Implements the Moes interface to manage media and student data.
+ * Handles adding students and media, managing points, and playing media.
  * 
  * @author Famiha Riasa
  * @version 0.2
  * @since 1.0
- * 
  */
 public class MoesImpl implements Moes {
-    private ArrayList<Media> library = new ArrayList<>();
-    private ArrayList<Student> customers = new ArrayList<>();
+    private ArrayList<Media> library;
+    private ArrayList<Student> customers;
 
     /**
-     * Constructs a MoesImpl object.
+     * Constructs a MoesImpl instance with empty lists for media and students.
+     * 
      * @since 1.0
      */
     public MoesImpl() {
-
+        library = new ArrayList<>();
+        customers = new ArrayList<>();
     }
 
     /**
-     * Adds media to the library.
+     * Adds a media item to the library.
      * 
      * @param media the Media object to add
      * @since 1.0
-     * 
      */
-    @Override
+
+
     public void addMedia(Media media) {
         library.add(media);
     }
@@ -45,38 +47,35 @@ public class MoesImpl implements Moes {
      * 
      * @param student the Student object to add
      * @since 1.0
-     * 
      */
-    
+
     public void addStudent(Student student) {
         customers.add(student);
     }
 
     /**
-     * Gets points for a student.
+     * Returns the number of points for the student at the specified index.
      * 
      * @param studentIndex the index of the student
-     * @return points or max value for Unlimited accounts
+     * @return the number of points or Integer.MAX_VALUE for Unlimited accounts
      * @since 1.0
-     * 
      */
-    @Override
+ 
     public int getPoints(int studentIndex) {
         Account account = customers.get(studentIndex).getAccount();
         if (account instanceof Alacarte) {
             return ((Alacarte) account).getPointsRemaining();
         }
-        return Integer.MAX_VALUE;
+        return Integer.MAX_VALUE; // Unlimited accounts have no point limit
     }
 
     /**
-     * Plays media for a student.
+     * Plays the media for the student at the specified index.
      * 
-     * @param studentIndex  index of  student
-     * @param mediaIndex  index of  media
-     * @return result of play 
+     * @param studentIndex the index of the student
+     * @param mediaIndex the index of the media
+     * @return a message indicating the result of the play 
      * @since 1.0
-     * 
      */
     @Override
     public String playMedia(int studentIndex, int mediaIndex) {
@@ -85,13 +84,13 @@ public class MoesImpl implements Moes {
     }
 
     /**
-     * Buys points for a student.
+     * Buys points for the student at the specified index.
      * 
      * @param studentIndex the index of the student
      * @param points the number of points to buy
      * @since 1.0
+     * 
      */
-    
     public void buyPoints(int studentIndex, int points) {
         Student student = customers.get(studentIndex);
         Account account = student.getAccount();
@@ -101,11 +100,10 @@ public class MoesImpl implements Moes {
     }
 
     /**
-     * Lists all students.
+     * Returns a string representation of all students in the system.
      * 
-     * @return string representation of students
+     * @return the string representation of students
      * @since 1.0
-     * 
      */
     public String getStudentList() {
         StringBuilder sb = new StringBuilder();
@@ -116,13 +114,13 @@ public class MoesImpl implements Moes {
     }
 
     /**
-     * Lists all media.
+     * Returns a string representation of all media in the library.
      * 
-     * @return string for media
+     * @return the string representation of media
      * @since 1.0
      * 
      */
-    
+    @Override
     public String getMediaList() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < library.size(); i++) {
