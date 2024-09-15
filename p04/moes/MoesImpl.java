@@ -1,78 +1,133 @@
 package moes;
 
-import product.Media;
-import customer.Student;
 import customer.Account;
 import customer.Alacarte;
+import customer.Student;
 import customer.Unlimited;
+import product.Media;
+
 import java.util.ArrayList;
 
+/**
+ * Implementation of Moes interface.
+ * 
+ * @author Famiha Riasa
+ * @version 0.2
+ * @since 1.0
+ * 
+ */
 public class MoesImpl implements Moes {
-    private ArrayList<Media> media = new ArrayList<>();
+    private ArrayList<Media> library = new ArrayList<>();
     private ArrayList<Student> customers = new ArrayList<>();
 
+    /**
+     * Constructs a MoesImpl object.
+     * @since 1.0
+     */
+    public MoesImpl() {
+
+    }
+
+    /**
+     * Adds media to the library.
+     * 
+     * @param media the Media object to add
+     * @since 1.0
+     * 
+     */
     @Override
     public void addMedia(Media media) {
-        this.media.add(media);
+        library.add(media);
     }
 
-    @Override
-    public String getMediaList() {
-        int index = 0;
-        StringBuilder result = new StringBuilder();
-        for (Media item : media) {
-            result.append(index).append(") ").append(item.toString()).append("\n");
-            index++;
-        }
-        return result.toString();
-    }
-
-    @Override
+    /**
+     * Adds a student to the system.
+     * 
+     * @param student the Student object to add
+     * @since 1.0
+     * 
+     */
+    
     public void addStudent(Student student) {
-        this.customers.add(student);
+        customers.add(student);
     }
 
-    @Override
-    public String getStudentList() {
-        int index = 0;
-        StringBuilder result = new StringBuilder();
-        for (Student item : customers) {
-            result.append(index).append(") ").append(item.toString()).append("\n");
-            index++;
-        }
-        return result.toString();
-    }
-
+    /**
+     * Gets points for a student.
+     * 
+     * @param studentIndex the index of the student
+     * @return points or max value for Unlimited accounts
+     * @since 1.0
+     * 
+     */
     @Override
     public int getPoints(int studentIndex) {
         Account account = customers.get(studentIndex).getAccount();
         if (account instanceof Alacarte) {
             return ((Alacarte) account).getPointsRemaining();
-        } else if (account instanceof Unlimited) {
-            return Integer.MAX_VALUE;
-        } else {
-            throw new UnsupportedOperationException("Unknown subclass of Account");
         }
+        return Integer.MAX_VALUE;
     }
 
-    @Override
-    public String buyPoints(int studentIndex, int points) {
-        Account account = customers.get(studentIndex).getAccount();
-        if (account instanceof Alacarte) {
-            Alacarte alacarteAccount = (Alacarte) account;
-            alacarteAccount.buyPoints(points);
-            return "Student now has " + alacarteAccount.getPointsRemaining() + " points.";
-        } else if (account instanceof Unlimited) {
-            return "Student has an unlimited account and needs no additional points.";
-        } else {
-            throw new UnsupportedOperationException("Unknown subclass of Account");
-        }
-    }
-
+    /**
+     * Plays media for a student.
+     * 
+     * @param studentIndex  index of  student
+     * @param mediaIndex  index of  media
+     * @return result of play 
+     * @since 1.0
+     * 
+     */
     @Override
     public String playMedia(int studentIndex, int mediaIndex) {
+        Media media = library.get(mediaIndex);
+        return customers.get(studentIndex).requestMedia(media);
+    }
+
+    /**
+     * Buys points for a student.
+     * 
+     * @param studentIndex the index of the student
+     * @param points the number of points to buy
+     * @since 1.0
+     */
+    
+    public void buyPoints(int studentIndex, int points) {
         Student student = customers.get(studentIndex);
-        Media media = this.media.get(mediaIndex);
-        return student.requestMedia(media);
+        Account account = student.getAccount();
+        if (account instanceof Alacarte) {
+            ((Alacarte) account).buyPoints(points);
+        }
+    }
+
+    /**
+     * Lists all students.
+     * 
+     * @return string representation of students
+     * @since 1.0
+     * 
+     */
+    public String getStudentList() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < customers.size(); i++) {
+            sb.append(i).append(") ").append(customers.get(i).toString()).append("\n");
+        }
+        return sb.toString();
+    }
+
+    /**
+     * Lists all media.
+     * 
+     * @return string for media
+     * @since 1.0
+     * 
+     */
+    
+    public String getMediaList() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < library.size(); i++) {
+            sb.append(i).append(") ").append(library.get(i).toString()).append("\n");
+        }
+        return sb.toString();
     }
 }

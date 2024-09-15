@@ -1,8 +1,8 @@
 package product;
 
 /**
- * Media class : a title, URL, and associated points.
- * This class provides methods to retrieve the points required to purchase media entertainment  and a string representation of the media.
+ * Media class: a title, URL, and associated points.
+ * This class provides methods to retrieve the points required to purchase media entertainment and a string representation of the media.
  * 
  * @author Famiha Riasa
  * @version 0.2
@@ -23,7 +23,6 @@ public class Media {
      * @since 1.0
      * 
      */ 
-
     public Media(String title, String url, int points) {
         this.title = title;
         this.url = url;
@@ -31,14 +30,12 @@ public class Media {
     }
 
     /**
-     * 
      * Returns the number of points required to purchase this media item.
      * 
      * @return the number of points needed
      * @since 1.0
      * 
      */ 
-
     public int getPoints() {
         return this.points;
     }
@@ -48,7 +45,6 @@ public class Media {
      * 
      * @return the string representation of the media item
      * @since 1.0
-     * 
      */ 
     @Override
     public String toString() {

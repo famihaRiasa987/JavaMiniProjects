@@ -1,8 +1,10 @@
-
 package test;
+
 import product.Media;
 
+
 public class TestMedia {
+  
     public static void main(String[] args) {
         boolean failed = false; 
 

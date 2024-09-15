@@ -2,14 +2,21 @@
 <project name="CSE1325" default="build">
 <target name="build" description="Compile source tree java files">
 <javac includeantruntime="false" debug="true" failonerror="true">
-<src path="product"/>
+<src path="."/>
 </javac>
 </target>
-<target name="javadoc" description="Generate JavaDoc for Media class">
-<javadoc sourcepath="product" defaultexcludes="yes" destdir="docs/api" author="true" version="true" use="true" windowtitle="MANGA API">
-<fileset dir="product" includes="Media.java"/>
+<target name="javadoc" description="Generate JavaDoc">
+<javadoc packagenames="customer.*,product.*,test.*"
+sourcepath="."
+excludepackagenames="com.dummy.test.doc-files.*"
+defaultexcludes="yes"
+destdir="docs/api"
+author="true"
+version="true"
+use="true"
+windowtitle="MANGA API">
 <doctitle><![CDATA[<h1>Mavs Arboreta, Nursery, and Garden Association</h1>]]></doctitle>
-<bottom><![CDATA[<i>Copyright &#169; 2024 Famiha Riasa. Licensed as Gnu General Public License 3.0</i>]]></bottom>
+<bottom><![CDATA[<i>Copyright &#169; 2024 Famiha Riasa. Licensed as Licensed as Gnu General Public License 3.0</i>]]></bottom>
 <tag name="license.agreement" scope="all" description="Licensed under:"/>
 </javadoc>
 </target>

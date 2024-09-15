@@ -8,16 +8,15 @@ public class CheckP04 {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
 
-        // Create a MOES instance
-        MoesImpl moes = new MoesImpl(); // Use the concrete implementation
+        MoesImpl moes = new MoesImpl();
 
-        // Add two students, one with unlimited and one with ala carte
-        moes.addStudent(new Student("A. Media Hound", 1234567890, "amh7890@uta.edu"));
-        moes.addStudent(new Student("Casual Carl", 1234567891, "cc7891@uta.edu"));
+        moes.addStudent(new Student("A. Media Hound", 1234567890, "amh7890@uta.edu", true)); // Alacarte
+        moes.addStudent(new Student("Casual Carl", 1234567891, "cc7891@uta.edu", false)); // Unlimited
+
         System.out.print("Buy how many points for Casual Carl? ");
-        moes.buyPoints(1, in.nextInt()); in.nextLine(); // Buy points for Casual Carl
+        int pointsToBuy = in.nextInt();
+        moes.buyPoints(1, pointsToBuy);
 
-        // Add a couple of media selections
         moes.addMedia(new Media("The Terror of Tiny Town", 
                                 "https://en.wikipedia.org/wiki/File:The_Terror_of_Tiny_Town.webm",
                                 3));
@@ -25,7 +24,6 @@ public class CheckP04 {
                                 "https://www.youtube.com/watch?v=6LEfzup0aNs",
                                 5));
 
-        // Ask for and play media
         System.out.print("\nMOES Users\n\n" + moes.getStudentList() + "\nWhich user? ");
         int studentIndex = in.nextInt(); in.nextLine();
         int points = moes.getPoints(studentIndex);
@@ -33,11 +31,12 @@ public class CheckP04 {
             System.out.println("Unlimited Account");
         else
             System.out.println("Available points: " + moes.getPoints(studentIndex));
+
         System.out.print("\nMOES Media\n\n" + moes.getMediaList() + "\nWhich media? ");
         int mediaIndex = in.nextInt(); in.nextLine();
-        
+
         System.out.println(moes.playMedia(studentIndex, mediaIndex));
-        
+
         System.out.println("Points remaining: " + moes.getPoints(studentIndex));
     }
 }
