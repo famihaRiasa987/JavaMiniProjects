@@ -1,19 +1,19 @@
 package customer;
+
 import product.Media;
 
-abstract class Account{
+public abstract class Account {
     private int accountNumber;
-    private static int nextAccountNumber = 1; 
+    private static int nextAccountNumber = 1;
 
-    public Account(){
+    public Account() {
         this.accountNumber = nextAccountNumber;
         nextAccountNumber++;
     }
-    public int getAccountNumber(){
+
+    public int getAccountNumber() {
         return this.accountNumber;
     }
 
-    abstract String play(Media media);
-
-
+    public abstract String play(Media media);
 }
