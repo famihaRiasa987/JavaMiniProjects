@@ -107,6 +107,11 @@ public class Main{
         String result = moes.buyPoints(studentIndex, buyPoints);
         System.out.println("Available points now: " + result);
 
+        
+    }
+    private void endApp() {
+        System.out.println("Exiting application...");
+        running = false;
     }
     
     public Main(Moes moes, string output,Menu menu, boolean running){
@@ -114,8 +119,21 @@ public class Main{
         this.output = output;
         this.menu = menu;
         this.running = running;
+        this.scanner = new Scanner(System.in);
+
+        MenuItem exitItem = new MenuItem("Exit", () -> endApp());
+        MenuItem listMedia = new MenuItem("List Media",() -> listMedia());
+        MenuItem playMediaItem = new MenuItem("Play Media", () -> playMedia());
+        MenuItem listAvailablePointsItem = new MenuItem("List Available Points", () -> listAvailablePoints());
+        MenuItem buyPointsItem = new MenuItem("Buy Points", () -> buyPoints());
+        MenuItem listStudent = new MenuItem("List all Student", ()->listStudent());
+        MenuItem addStudent = new MenuItem("Add a Student", ()->addStudent());
+
+
+
 
     }
+    
 
 
 }
