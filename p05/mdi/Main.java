@@ -109,12 +109,9 @@ public class Main{
 
         
     }
-    private void endApp() {
-        System.out.println("Exiting application...");
-        running = false;
-    }
+
     
-    public Main(Moes moes, string output,Menu menu, boolean running){
+    public Main(Moes moes, string output, Menu menu, boolean running){
         this.moes = moes;
         this.output = output;
         this.menu = menu;
@@ -130,10 +127,32 @@ public class Main{
         MenuItem addStudent = new MenuItem("Add a Student", ()->addStudent());
 
 
+    }
+    private void mdi(){
+        while(running){
+            System.out.println("Selection? ");
+            Object user_input = scanner.nextLine();
+            if(user_input!=null){
+                menu.run(user_input);
+            }
 
+        }
+    }
+    private void endApp() {
+        System.out.println("Exiting Moes...");
+        running = false;
+    }
+  
+    public static void main(str[] args){
+        Moes moes = new Moes();
+        Menu menu = new Menu();
+        String output = "";
+        boolean running = true;
+
+
+        Main media_player = new Main(moes,output,menu, running );
+        media_player.mdi();
 
     }
-    
-
 
 }
