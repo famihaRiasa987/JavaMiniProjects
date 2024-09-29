@@ -89,20 +89,33 @@ public class Main{
         System.out.println("Student number: ");
         int studentIndex = scanner.nextInt();
         scanner.nextLine(); 
+
         int current_points = moes.getPoints(studentIndex);
         System.out.println("How many additional Points u want to buy? ");
         int buy_points = scanner.nextInt();
-        if(buy_points<0){
-            System.out.println("No purchasing negative points!");
-            System.out.println("Try Again: How many additional Points u want to buy? ");
-            buy_points = scanner.nextInt();
 
+        int buyPoints = -1;
+        while (buyPoints < 0) {
+            System.out.println("How many additional points do you want to buy? ");
+            buyPoints = scanner.nextInt();
+    
+            if (buyPoints < 0) {
+                System.out.println("No purchasing negative points! Try Again.");
+            }
         }
- 
+    
+        String result = moes.buyPoints(studentIndex, buyPoints);
+        System.out.println("Available points now: " + result);
 
     }
     
+    public Main(Moes moes, string output,Menu menu, boolean running){
+        this.moes = moes;
+        this.output = output;
+        this.menu = menu;
+        this.running = running;
 
+    }
 
 
 }
