@@ -28,10 +28,11 @@ public class Main{
         if (accountType.equalsIgnoreCase("a")) {
             isAlacarte = true; 
         }
-        else if (accountType.equalsIgnoreCase("u")) {
+        else if(accountType.equalsIgnoreCase("u")) {
             isAlacarte = false; 
         }
-        else{
+        else
+        {
             System.out.println("Invalid input, defaulting to Unlimited");
             isAlacarte = false;
         }
@@ -53,6 +54,8 @@ public class Main{
 
         System.out.println("points: ");
         int points = scanner.nextInt();
+        scanner.nextLine();
+
 
         Media media = new Media(title, url, points );
         moes.addMedia(media);
@@ -67,8 +70,38 @@ public class Main{
         int student_index = scanner.nextInt();
         System.out.println("Media number: ");
         int media_index = scanner.nextInt();
+        scanner.nextLine();
+
+
+        String result = moes.playMedia(studentIndex, mediaIndex);
+        System.out.println(result);
 
     }
+    private void listAvailablePoints() {
+        System.out.println("Student number: ");
+        int studentIndex = scanner.nextInt();
+        scanner.nextLine(); 
+        String result = moes.getPoints(studentIndex);
+        System.out.println("Available points for student " + studentIndex + ": " + result);
+    }
+
+    private void buyPoints(){
+        System.out.println("Student number: ");
+        int studentIndex = scanner.nextInt();
+        scanner.nextLine(); 
+        int current_points = moes.getPoints(studentIndex);
+        System.out.println("How many additional Points u want to buy? ");
+        int buy_points = scanner.nextInt();
+        if(buy_points<0){
+            System.out.println("No purchasing negative points!");
+            System.out.println("Try Again: How many additional Points u want to buy? ");
+            buy_points = scanner.nextInt();
+
+        }
+ 
+
+    }
+    
 
 
 
