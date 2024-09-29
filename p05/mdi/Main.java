@@ -18,17 +18,16 @@ public class Main {
         this.running = running;
         this.scanner = new Scanner(System.in);
 
-        // Initialize menu items
+        menu.addMenuItem(new MenuItem("Exit", () -> endApp()));
+        menu.addMenuItem(new MenuItem("List Media", () -> listMedia()));
+        menu.addMenuItem(new MenuItem("Play Media", () -> playMedia()));
+        menu.addMenuItem(new MenuItem("List Available Points", () -> listAvailablePoints()));
+        menu.addMenuItem(new MenuItem("Buy Points", () -> buyPoints()));
+        menu.addMenuItem(new MenuItem("Add media", () -> addMedia()));
+        menu.addMenuItem(new MenuItem("List all Students", () -> listStudent()));
+        menu.addMenuItem(new MenuItem("Add a Student", () -> addStudent()));
 
-        menu.addMenuItem(new MenuItem("Exit", this::endApp));
-        menu.addMenuItem(new MenuItem("List Media", this::listMedia));
-        menu.addMenuItem(new MenuItem("Play Media", this::playMedia));
-        menu.addMenuItem(new MenuItem("List Available Points", this::listAvailablePoints));
-        menu.addMenuItem(new MenuItem("Buy Points", this::buyPoints));
-        menu.addMenuItem(new MenuItem("Add media", this::addMedia));
-        menu.addMenuItem(new MenuItem("List all Students", this::listStudent));
-        menu.addMenuItem(new MenuItem("Add a Student", this::addStudent));
-    }
+        }
 
     private void addStudent() {
         System.out.print("Enter student name: ");
@@ -45,9 +44,11 @@ public class Main {
 
         boolean isAlacarte = accountType.equalsIgnoreCase("a");
 
-        // Create and add the student
         Student student = new Student(name, id, email, isAlacarte);
         moes.addStudent(student);
+        System.out.println("\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
+        System.out.println("  Added Student: " + student.toString());
+        System.out.println(" - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n");
     }
 
     private void listStudent() {
@@ -55,13 +56,13 @@ public class Main {
     }
 
     private void addMedia() {
-        System.out.println("Title: ");
+        System.out.print("Title: ");
         String title = scanner.nextLine();
 
-        System.out.println("URL: ");
+        System.out.print("URL: ");
         String url = scanner.nextLine();
 
-        System.out.println("Points: ");
+        System.out.print("Points: ");
         int points = Integer.parseInt(scanner.nextLine());
 
         Media media = new Media(title, url, points);
@@ -69,34 +70,61 @@ public class Main {
     }
 
     private void listMedia() {
-        System.out.println(moes.getMediaList());
+        if (moes.getLibrary().isEmpty()) {
+            System.out.println("No media added yet.");
+        } else {
+            System.out.println(moes.getMediaList());
+        }
+        System.out.println();
     }
-
+    
     private void playMedia() {
-        System.out.println("Student number: ");
+        if (moes.getStudents().isEmpty()) {
+            System.out.println("No students added yet.");
+            return;
+        }
+    
+        if (moes.getLibrary().isEmpty()) {
+            System.out.println("No media added yet.");
+            return;
+        }
+    
+        System.out.print("Student number: ");
         int studentIndex = scanner.nextInt();
-        System.out.println("Media number: ");
+    
+        System.out.print("Media number: ");
         int mediaIndex = scanner.nextInt();
         scanner.nextLine(); 
-
-        System.out.println(moes.playMedia(studentIndex, mediaIndex));
-    }
-
-    private void listAvailablePoints() {
-        System.out.println("Student number: ");
-        int studentIndex = scanner.nextInt();
-        scanner.nextLine(); // Consume the newline
 
         if (studentIndex < 0 || studentIndex >= moes.getStudents().size()) {
             System.err.println("Invalid student number.");
             return;
         }
+    
+        if (mediaIndex < 0 || mediaIndex >= moes.getLibrary().size()) {
+            System.err.println("Invalid media number.");
+            return;
+        }
+    
+        System.out.println(moes.playMedia(studentIndex, mediaIndex));
+    }
+    
 
-        System.out.println("Available points: " + moes.getPoints(studentIndex));
+    private void listAvailablePoints() {
+        System.out.print("Student number: ");
+        int studentIndex = scanner.nextInt();
+        scanner.nextLine(); 
+        if (studentIndex < 0 || studentIndex >= moes.getStudents().size()) {
+            System.err.println("Invalid student number.");
+            return;
+        }
+
+        System.out.print("Available points: " + moes.getPoints(studentIndex));
+        System.out.println();
     }
 
     private void buyPoints() {
-        System.out.println("Student number: ");
+        System.out.print("Student number: ");
         int studentIndex = scanner.nextInt();
 
         if (studentIndex < 0 || studentIndex >= moes.getStudents().size()) {
@@ -106,7 +134,7 @@ public class Main {
 
         int buyPoints = -1;
         while (buyPoints < 0) {
-            System.out.println("How many additional points do you want to buy? ");
+            System.out.print("How many additional points do you want to buy? ");
             buyPoints = scanner.nextInt();
 
             if (buyPoints < 0) {
@@ -141,10 +169,10 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("::::::::::::::::::::::::::::::000 :::: 000:::::::::::::::::::::::::::::");
-        System.out.println("!                                                                      !");
-        System.out.println("!    Mavs Online Entertainment System (MOES).                          !");
-        System.out.println("!                            FAMIHA                                    !");
-        System.out.println("!                                                                      !");
+        System.out.println("!                                                                     !");
+        System.out.println("!    Mavs Online Entertainment System (MOES).                         !");
+        System.out.println("!                            FAMIHA                                   !");
+        System.out.println("!                                                                     !");
         System.out.println("::::::::::::::::::::::::::::::000 :::: 000:::::::::::::::::::::::::::::");
         System.out.println();
         MoesImpl moes = new MoesImpl();
