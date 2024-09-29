@@ -1,7 +1,11 @@
+package mdi;
+
+import java.util.ArrayList;
+
 public class Menu{
     private ArrayList <MenuItem> items = new ArrayList<>();
     
-    public addMenuItem(MenuItem item){
+    public void addMenuItem(MenuItem item){
         items.add(item);
     }
     @Override
@@ -15,5 +19,8 @@ public class Menu{
 
     public void run(int i){
         items.get(i).run();
+    }
+    public int size() {
+        return items.size(); 
     }
 }

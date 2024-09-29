@@ -1,4 +1,7 @@
+
+package mdi;
+
 public interface Runnable {
 
-    public run();
+    public void run();
 }
