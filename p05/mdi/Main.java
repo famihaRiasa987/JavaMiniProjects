@@ -1,5 +1,4 @@
 package mdi;
-
 import customer.Student;
 import moes.Moes;
 import moes.MoesImpl;
@@ -162,7 +161,8 @@ public class Main {
         }
     }
 
-    private void endApp() {
+    private void endApp(){
+
         System.out.println("Exiting Moes...");
         running = false;
     }
@@ -170,7 +170,7 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("::::::::::::::::::::::::::::::000 :::: 000:::::::::::::::::::::::::::::");
         System.out.println("!                                                                     !");
-        System.out.println("!    Mavs Online Entertainment System (MOES).                         !");
+        System.out.println("!            Mavs Online Entertainment System (MOES).                 !");
         System.out.println("!                            FAMIHA                                   !");
         System.out.println("!                                                                     !");
         System.out.println("::::::::::::::::::::::::::::::000 :::: 000:::::::::::::::::::::::::::::");
