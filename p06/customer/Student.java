@@ -64,7 +64,7 @@ public class Student {
         }
 
     }
-    public void save(BufferedWriter bw){
+    public void save(BufferedWriter bw) throws IOException{
         bw.write(name);
         bw.newLine();
         bw.write(String.valueOf(id));
