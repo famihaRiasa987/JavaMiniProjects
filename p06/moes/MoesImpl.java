@@ -3,15 +3,49 @@ import customer.Account;
 import customer.Alacarte;
 import customer.Student;
 import product.Media;
+
 import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
 
 public class MoesImpl implements Moes {
-    private ArrayList<Media> library;
     private ArrayList<Student> customers;
+    private ArrayList<Media> library;
 
     public MoesImpl() {
         library = new ArrayList<>();
         customers = new ArrayList<>();
+    }
+
+    public MoesImpl(BufferedReader br) throws IOException {
+        int studentCount = Integer.parseInt(br.readLine());
+        customers = new ArrayList<>();
+        for (int i = 0; i < studentCount; i++) {
+            customers.add(new Student(br));
+        }
+
+        int mediaCount = Integer.parseInt(br.readLine());
+        library = new ArrayList<>();
+        for (int i = 0; i < mediaCount; i++) {
+            library.add(new Media(br));
+        }
+    }
+
+    public void save(BufferedWriter bw) throws IOException {
+        bw.write(String.valueOf(customers.size()));
+        bw.newLine();
+        
+        for (Student student : customers) {
+            student.save(bw);
+        }
+
+        bw.write(String.valueOf(library.size()));
+        bw.newLine();
+
+        for (Media media : library) {
+            media.save(bw);
+        }
     }
 
     public void addMedia(Media media) {
@@ -27,7 +61,7 @@ public class MoesImpl implements Moes {
         if (account instanceof Alacarte) {
             return ((Alacarte) account).getPointsRemaining();
         }
-        return Integer.MAX_VALUE; // Unlimited accounts have no point limit
+        return Integer.MAX_VALUE;
     }
 
     public String playMedia(int studentIndex, int mediaIndex) {
@@ -60,10 +94,10 @@ public class MoesImpl implements Moes {
     }
 
     public ArrayList<Student> getStudents() {
-        return customers; // Allows access to the student list
+        return customers; 
     }
 
     public ArrayList<Media> getLibrary() {
-        return library; // Allows access to the media library
+        return library; 
     }
 }
