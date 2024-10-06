@@ -24,14 +24,15 @@ public class Alacarte extends Account {
         super();
         this.pointsRemaining = 0;
     }
-    public Alacarte(BufferedReader br){
+    public Alacarte(BufferedReader br) throws IOException{
         super(br);
-        this.pointsRemaining = readLine();
+        this.pointsRemaining = Integer.parseInt(br.readLine());
 
 
     }
-    public void save(BufferedWriter bw){
-        
+    public void save(BufferedWriter bw) throws IOException{
+        super.save(bw);
+        bw.write(String.valueOf(pointsRemaining));
 
     }
 

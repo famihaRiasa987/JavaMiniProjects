@@ -1,5 +1,10 @@
 package customer;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.Buffer;
+
 import product.Media;
 
 /**
@@ -39,6 +44,43 @@ public class Student {
         }
     }
     
+    public Student(BufferedReader br) throws IOException{
+        this.name = br.readLine();
+        this.id = Integer.parseInt(br.readLine());
+        this.email = br.readLine();
+        String accountType = br.readLine();
+
+        if("customer.Unlimited".equals(accountType)){
+            this.account = new Unlimited(br);
+
+        }
+        else if("customer.Alacarte".equals(accountType)){
+            this.account = new Alacarte(br);
+
+        }
+        else{
+            throw new IllegalArgumentException("Wrong account type"+ accountType);
+
+        }
+
+    }
+    public void save(BufferedWriter bw){
+        bw.write(name);
+        bw.newLine();
+        bw.write(String.valueOf(id));
+        bw.newLine();
+        bw.write(email);
+        bw.newLine();
+        bw.write(account.getClass().getName()); 
+        bw.newLine();
+        account.save(bw);
+
+        
+    }
+
+
+
+
     /**
      * Returns the account associated with this student.
      * 
