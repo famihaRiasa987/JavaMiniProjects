@@ -1,5 +1,9 @@
 package customer;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+
 import product.Media;
 
 /**
@@ -19,7 +23,15 @@ public class Unlimited extends Account {
      * @since 1.0
      */
     public Unlimited() {
-        // Default constructor
+        super();
+    }
+    public Unlimited(BufferedReader br) throws IOException{
+        super(br);
+
+    }
+    public void save(BufferedWriter bw) throws IOException
+    {
+        super.save(bw);
     }
 
     /**

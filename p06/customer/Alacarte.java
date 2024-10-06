@@ -1,5 +1,7 @@
 package customer;
-
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
 import product.Media;
 
 /**
@@ -19,7 +21,18 @@ public class Alacarte extends Account {
      * @since 1.0
      */
     public Alacarte() {
+        super();
         this.pointsRemaining = 0;
+    }
+    public Alacarte(BufferedReader br){
+        super(br);
+        this.pointsRemaining = readLine();
+
+
+    }
+    public void save(BufferedWriter bw){
+        
+
     }
 
     /**

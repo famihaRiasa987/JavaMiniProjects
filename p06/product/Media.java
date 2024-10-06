@@ -39,20 +39,16 @@ public class Media {
 
 
     }
-
-
     public void save(BufferedWriter bw) throws IOException{
 
         bw.write(title);
         bw.newLine();
         bw.write(url);
         bw.newLine();
-        bw.write(Integer.toString(points));
+        bw.write(String.valueOf(points));
         bw.newLine();
 
     }
-
-
 
     /**
      * Returns the title of the media.
