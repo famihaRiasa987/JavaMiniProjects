@@ -236,13 +236,24 @@ public class Main {
         try(BufferedReader br = new BufferedReader(new FileReader(newFilename))){
 
             String magicCookie = br.readLine();
-            Strign fileVersion = br.readLine();
+            String fileVersion = br.readLine();
 
             if(!MAGIC_COOKIE.equals(magicCookie)||!FILE_VERSION.equals(fileVersion)){
                 throw new IOException("invalid file format");
             }
-        }
+            MoesImpl newMoes = new MoesImpl(br);  // MoesImpl constructor should load data from br.
+        moes = newMoes;  // Replace the current Moes object.
+        filename = newFilename;
+        System.out.println("Data successfully loaded from " + filename);
+    } 
+
+
+    catch (IOException e) {
+        System.err.println("Failed to open file: " + e.getMessage());
     }
+}
+        
+    
 
     public static void main(String[] args) {
         System.out.println("::::::::::::::::::::::::::::::000 :::: 000:::::::::::::::::::::::::::::");
