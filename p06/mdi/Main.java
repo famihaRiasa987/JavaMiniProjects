@@ -3,6 +3,12 @@ import customer.Student;
 import moes.Moes;
 import moes.MoesImpl;
 import product.Media;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
@@ -10,12 +16,20 @@ public class Main {
     private Menu menu;
     private boolean running;
     private Scanner scanner;
+    private String filename;
+
+    private static final String FILE_EXTENSION = ".moes";
+    private static final String MAGIC_COOKIE = "MOES_MAGIC_COOKIE";
+    private static final String FILE_VERSION = "1.0";
+
+
 
     public Main(MoesImpl moes, Menu menu, boolean running) {
         this.moes = moes;
         this.menu = menu;
         this.running = running;
         this.scanner = new Scanner(System.in);
+        this.filename = null;
 
         menu.addMenuItem(new MenuItem("Exit", () -> endApp()));
         menu.addMenuItem(new MenuItem("List Media", () -> listMedia()));
@@ -165,6 +179,69 @@ public class Main {
 
         System.out.println("Exiting Moes...");
         running = false;
+    }
+    private void newMoes(){
+        moes = new MoesImpl();
+
+    }
+    private void save(){
+        if(filename == null || filename.isEmpty()){
+            System.err.println("Filename not specified. Use saveAs to provide a filename.");
+            return;
+        }
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(filename))){
+            bw.write(MAGIC_COOKIE);
+            bw.newLine();
+            bw.write(FILE_VERSION);
+            bw.newLine();
+            moes.save(bw);
+
+        }
+        catch(IOException e){
+            System.err.println("Failed to save data "+ e.getMessage());
+        }
+
+    }
+    private void saveAs(){
+        System.out.println("name of the file: "+ filename);
+        System.out.println("Insert new filename");
+        String newFilename = scanner.nextLine();
+        
+        if(newFilename.isEmpty()){
+            System.err.println("opening cancelled");
+            return;
+        }
+        if(!(newFilename.endsWith(FILE_EXTENSION))){
+            newFilename += FILE_EXTENSION;
+
+        }
+        filename = newFilename;
+        save();
+
+    }
+    private void open(){
+        System.out.println("Current filename: "+ filename);
+        System.out.println("Enter a new filename: ");
+        String newFilename = scanner.nextLine();
+
+        if(newFilename.isEmpty()){
+            System.err.println("opening cancelled");
+            return;
+        }
+        
+        if(!(newFilename.endsWith(FILE_EXTENSION))){
+                newFilename += FILE_EXTENSION;
+            }
+      
+        try(BufferedReader br = new BufferedReader(new FileReader(newFilename))){
+
+            String magicCookie = br.readLine();
+            Strign fileVersion = br.readLine();
+
+            if(!MAGIC_COOKIE.equals(magicCookie)||!FILE_VERSION.equals(fileVersion)){
+                throw new IOException("invalid file format");
+            }
+        }
     }
 
     public static void main(String[] args) {
