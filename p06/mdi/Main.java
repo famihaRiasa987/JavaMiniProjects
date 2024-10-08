@@ -57,7 +57,7 @@ public class Main {
 
         Student student = new Student(name, id, email, isAlacarte);
         moes.addStudent(student);
-        dirty = true;  // Mark as dirty when data is modified
+        dirty = true;
         System.out.println("Added Student: " + student);
     }
 
@@ -77,7 +77,7 @@ public class Main {
 
         Media media = new Media(title, url, points);
         moes.addMedia(media);
-        dirty = true;  // Mark as dirty when data is modified
+        dirty = true;
     }
 
     private void listMedia() {
@@ -177,8 +177,8 @@ public class Main {
                 return;
             }
         }
-        moes = new MoesImpl();  // Create new Moes instance
-        dirty = false;  // Reset dirty flag
+        moes = new MoesImpl();  
+        dirty = false; 
     }
 
     private void save() {
@@ -187,22 +187,32 @@ public class Main {
             return;
         }
 
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename))) {
-            bw.write(MAGIC_COOKIE);
-            bw.newLine();
-            bw.write(FILE_VERSION);
-            bw.newLine();
-            moes.save(bw);
-            dirty = false; 
-            System.out.println("Data successfully saved to " + filename);
+        try {
+            File existingFile = new File(filename);
+            if (existingFile.exists()) {
+                File backupFile = new File(filename + "~");
+                if (!existingFile.renameTo(backupFile)) {
+                    System.err.println("Failed to create backup file.");
+                    return;
+                }
+            }
+
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename))) {
+                bw.write(MAGIC_COOKIE);
+                bw.newLine();
+                bw.write(FILE_VERSION);
+                bw.newLine();
+                moes.save(bw);
+                dirty = false;  
+                System.out.println("Data successfully saved to " + filename);
+            }
         } catch (IOException e) {
             System.err.println("Failed to save data: " + e.getMessage());
         }
     }
 
     private void saveAs() {
-        System.out.print("Current filename: " + (filename == null ? "none" : filename));
-        System.out.print("\nEnter new filename: ");
+        System.out.print("Enter new filename: ");
         String newFilename = scanner.nextLine();
 
         if (newFilename.isEmpty()) {
@@ -211,11 +221,11 @@ public class Main {
         }
 
         if (!newFilename.endsWith(FILE_EXTENSION)) {
-            newFilename += FILE_EXTENSION;  // Add extension if not present
+            newFilename += FILE_EXTENSION; 
         }
 
         filename = newFilename;
-        save();  // Save using the new filename
+        save();  
     }
 
     private void open() {
@@ -239,10 +249,10 @@ public class Main {
                 throw new IOException("Invalid file format");
             }
 
-            MoesImpl newMoes = new MoesImpl(br);  // Load data from file
+            MoesImpl newMoes = new MoesImpl(br);  
             moes = newMoes;
             filename = newFilename;
-            dirty = false; 
+            dirty = false;  
             System.out.println("Data successfully loaded from " + filename);
         } catch (IOException e) {
             System.err.println("Failed to open file: " + e.getMessage());
@@ -257,6 +267,7 @@ public class Main {
         System.out.println("!                                                                     !");
         System.out.println("::::::::::::::::::::::::::::::000 :::: 000:::::::::::::::::::::::::::::");
         System.out.println();
+
         MoesImpl moes = new MoesImpl();
         Menu menu = new Menu();
         boolean running = true;
