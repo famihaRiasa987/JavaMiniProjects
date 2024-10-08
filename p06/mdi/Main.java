@@ -1,14 +1,9 @@
 package mdi;
+
 import customer.Student;
-import moes.Moes;
 import moes.MoesImpl;
 import product.Media;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 
 public class Main {
@@ -17,12 +12,11 @@ public class Main {
     private boolean running;
     private Scanner scanner;
     private String filename;
+    private boolean dirty;
 
     private static final String FILE_EXTENSION = ".moes";
     private static final String MAGIC_COOKIE = "MOES_MAGIC_COOKIE";
     private static final String FILE_VERSION = "1.0";
-
-
 
     public Main(MoesImpl moes, Menu menu, boolean running) {
         this.moes = moes;
@@ -30,17 +24,21 @@ public class Main {
         this.running = running;
         this.scanner = new Scanner(System.in);
         this.filename = null;
+        this.dirty = false;
 
         menu.addMenuItem(new MenuItem("Exit", () -> endApp()));
+        menu.addMenuItem(new MenuItem("New MOES File", () -> newMoes()));
+        menu.addMenuItem(new MenuItem("Save MOES File", () -> save()));
+        menu.addMenuItem(new MenuItem("Save As", () -> saveAs()));
+        menu.addMenuItem(new MenuItem("Open MOES File", () -> open()));
         menu.addMenuItem(new MenuItem("List Media", () -> listMedia()));
         menu.addMenuItem(new MenuItem("Play Media", () -> playMedia()));
         menu.addMenuItem(new MenuItem("List Available Points", () -> listAvailablePoints()));
         menu.addMenuItem(new MenuItem("Buy Points", () -> buyPoints()));
-        menu.addMenuItem(new MenuItem("Add media", () -> addMedia()));
+        menu.addMenuItem(new MenuItem("Add Media", () -> addMedia()));
         menu.addMenuItem(new MenuItem("List all Students", () -> listStudent()));
         menu.addMenuItem(new MenuItem("Add a Student", () -> addStudent()));
-
-        }
+    }
 
     private void addStudent() {
         System.out.print("Enter student name: ");
@@ -59,9 +57,8 @@ public class Main {
 
         Student student = new Student(name, id, email, isAlacarte);
         moes.addStudent(student);
-        System.out.println("\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
-        System.out.println("  Added Student: " + student.toString());
-        System.out.println(" - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n");
+        dirty = true;  // Mark as dirty when data is modified
+        System.out.println("Added Student: " + student);
     }
 
     private void listStudent() {
@@ -80,6 +77,7 @@ public class Main {
 
         Media media = new Media(title, url, points);
         moes.addMedia(media);
+        dirty = true;  // Mark as dirty when data is modified
     }
 
     private void listMedia() {
@@ -88,52 +86,40 @@ public class Main {
         } else {
             System.out.println(moes.getMediaList());
         }
-        System.out.println();
     }
-    
+
     private void playMedia() {
         if (moes.getStudents().isEmpty()) {
             System.out.println("No students added yet.");
             return;
         }
-    
+
         if (moes.getLibrary().isEmpty()) {
             System.out.println("No media added yet.");
             return;
         }
-    
+
         System.out.print("Student number: ");
         int studentIndex = scanner.nextInt();
-    
+
         System.out.print("Media number: ");
         int mediaIndex = scanner.nextInt();
-        scanner.nextLine(); 
+        scanner.nextLine();
 
-        if (studentIndex < 0 || studentIndex >= moes.getStudents().size()) {
-            System.err.println("Invalid student number.");
-            return;
-        }
-    
-        if (mediaIndex < 0 || mediaIndex >= moes.getLibrary().size()) {
-            System.err.println("Invalid media number.");
-            return;
-        }
-    
         System.out.println(moes.playMedia(studentIndex, mediaIndex));
     }
-    
 
     private void listAvailablePoints() {
         System.out.print("Student number: ");
         int studentIndex = scanner.nextInt();
-        scanner.nextLine(); 
+        scanner.nextLine();
+
         if (studentIndex < 0 || studentIndex >= moes.getStudents().size()) {
             System.err.println("Invalid student number.");
             return;
         }
 
         System.out.print("Available points: " + moes.getPoints(studentIndex));
-        System.out.println();
     }
 
     private void buyPoints() {
@@ -160,12 +146,10 @@ public class Main {
 
     private void mdi() {
         while (running) {
-            
-            System.out.println(menu); 
+            System.out.println(menu);
             System.out.print("Selection? ");
             int userInput = scanner.nextInt();
-            scanner.nextLine(); 
-            
+            scanner.nextLine();
 
             if (userInput >= 0 && userInput < menu.size()) {
                 menu.run(userInput);
@@ -175,85 +159,95 @@ public class Main {
         }
     }
 
-    private void endApp(){
-
+    private void endApp() {
         System.out.println("Exiting Moes...");
         running = false;
     }
-    private void newMoes(){
-        moes = new MoesImpl();
 
+    private void newMoes() {
+        if (dirty) {
+            System.out.print("You have unsaved data. Do you want to save it? (y/n): ");
+            String response = scanner.nextLine().toLowerCase();
+            if (response.equals("y")) {
+                save();
+            } else if (response.equals("n")) {
+                System.out.println("Data discarded.");
+            } else {
+                System.out.println("Invalid input, aborting.");
+                return;
+            }
+        }
+        moes = new MoesImpl();  // Create new Moes instance
+        dirty = false;  // Reset dirty flag
     }
-    private void save(){
-        if(filename == null || filename.isEmpty()){
-            System.err.println("Filename not specified. Use saveAs to provide a filename.");
+
+    private void save() {
+        if (filename == null || filename.isEmpty()) {
+            System.err.println("Filename not specified. Use Save As to provide a filename.");
             return;
         }
-        try(BufferedWriter bw = new BufferedWriter(new FileWriter(filename))){
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename))) {
             bw.write(MAGIC_COOKIE);
             bw.newLine();
             bw.write(FILE_VERSION);
             bw.newLine();
             moes.save(bw);
-
+            dirty = false; 
+            System.out.println("Data successfully saved to " + filename);
+        } catch (IOException e) {
+            System.err.println("Failed to save data: " + e.getMessage());
         }
-        catch(IOException e){
-            System.err.println("Failed to save data "+ e.getMessage());
-        }
-
     }
-    private void saveAs(){
-        System.out.println("name of the file: "+ filename);
-        System.out.println("Insert new filename");
+
+    private void saveAs() {
+        System.out.print("Current filename: " + (filename == null ? "none" : filename));
+        System.out.print("\nEnter new filename: ");
         String newFilename = scanner.nextLine();
-        
-        if(newFilename.isEmpty()){
-            System.err.println("opening cancelled");
+
+        if (newFilename.isEmpty()) {
+            System.out.println("Save cancelled.");
             return;
         }
-        if(!(newFilename.endsWith(FILE_EXTENSION))){
-            newFilename += FILE_EXTENSION;
 
+        if (!newFilename.endsWith(FILE_EXTENSION)) {
+            newFilename += FILE_EXTENSION;  // Add extension if not present
         }
+
         filename = newFilename;
-        save();
-
+        save();  // Save using the new filename
     }
-    private void open(){
-        System.out.println("Current filename: "+ filename);
-        System.out.println("Enter a new filename: ");
+
+    private void open() {
+        System.out.print("Enter filename to open: ");
         String newFilename = scanner.nextLine();
 
-        if(newFilename.isEmpty()){
-            System.err.println("opening cancelled");
+        if (newFilename.isEmpty()) {
+            System.out.println("Opening cancelled.");
             return;
         }
-        
-        if(!(newFilename.endsWith(FILE_EXTENSION))){
-                newFilename += FILE_EXTENSION;
-            }
-      
-        try(BufferedReader br = new BufferedReader(new FileReader(newFilename))){
 
+        if (!newFilename.endsWith(FILE_EXTENSION)) {
+            newFilename += FILE_EXTENSION;  // Add extension if not present
+        }
+
+        try (BufferedReader br = new BufferedReader(new FileReader(newFilename))) {
             String magicCookie = br.readLine();
             String fileVersion = br.readLine();
 
-            if(!MAGIC_COOKIE.equals(magicCookie)||!FILE_VERSION.equals(fileVersion)){
-                throw new IOException("invalid file format");
+            if (!MAGIC_COOKIE.equals(magicCookie) || !FILE_VERSION.equals(fileVersion)) {
+                throw new IOException("Invalid file format");
             }
-            MoesImpl newMoes = new MoesImpl(br);  // MoesImpl constructor should load data from br.
-        moes = newMoes;  // Replace the current Moes object.
-        filename = newFilename;
-        System.out.println("Data successfully loaded from " + filename);
-    } 
 
-
-    catch (IOException e) {
-        System.err.println("Failed to open file: " + e.getMessage());
+            MoesImpl newMoes = new MoesImpl(br);  // Load data from file
+            moes = newMoes;
+            filename = newFilename;
+            dirty = false; 
+            System.out.println("Data successfully loaded from " + filename);
+        } catch (IOException e) {
+            System.err.println("Failed to open file: " + e.getMessage());
+        }
     }
-}
-        
-    
 
     public static void main(String[] args) {
         System.out.println("::::::::::::::::::::::::::::::000 :::: 000:::::::::::::::::::::::::::::");
