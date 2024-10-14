@@ -23,7 +23,7 @@ public class Boggle {
             synchronized (boards) {
                 board = boards.get(i);
             }
-            Solver solver = new Solver(board);
+            Solver solver = new Solver(board, i, threadNumber);
             for (String word : words) {
                 Solution solution = solver.solve(word);
                 if (solution != null) {
@@ -66,7 +66,7 @@ public class Boggle {
             String s;
             try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
                 while ((s = br.readLine()) != null) {
-                    words.add(s);
+                    words.add(s.trim().toUpperCase()); // Ensure words are uppercase
                 }
             } catch (IOException e) {
                 System.err.println("Unable to read words from file " + filename + ": " + e);
@@ -77,9 +77,10 @@ public class Boggle {
             int boardsPerThread = (int) Math.ceil((double) numberOfBoards / numThreads);
 
             for (int threadNumber = 0; threadNumber < numThreads; threadNumber++) {
+                final int finalThreadNumber = threadNumber; // Create a final variable for the thread number
                 final int first = threadNumber * boardsPerThread;
                 final int lastPlusOne = Math.min(first + boardsPerThread, numberOfBoards);
-                threads[threadNumber] = new Thread(() -> solveRange(first, lastPlusOne, threadNumber));
+                threads[threadNumber] = new Thread(() -> solveRange(first, lastPlusOne, finalThreadNumber)); // Use final variable
                 threads[threadNumber].start();
             }
 
