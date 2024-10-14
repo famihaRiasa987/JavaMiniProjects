@@ -66,7 +66,7 @@ public class Boggle {
             String s;
             try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
                 while ((s = br.readLine()) != null) {
-                    words.add(s.trim().toUpperCase()); // Ensure words are uppercase
+                    words.add(s.trim().toUpperCase()); 
                 }
             } catch (IOException e) {
                 System.err.println("Unable to read words from file " + filename + ": " + e);
@@ -77,7 +77,7 @@ public class Boggle {
             int boardsPerThread = (int) Math.ceil((double) numberOfBoards / numThreads);
 
             for (int threadNumber = 0; threadNumber < numThreads; threadNumber++) {
-                final int finalThreadNumber = threadNumber; // Create a final variable for the thread number
+                final int finalThreadNumber = threadNumber; 
                 final int first = threadNumber * boardsPerThread;
                 final int lastPlusOne = Math.min(first + boardsPerThread, numberOfBoards);
                 threads[threadNumber] = new Thread(() -> solveRange(first, lastPlusOne, finalThreadNumber)); // Use final variable
