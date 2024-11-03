@@ -1,7 +1,16 @@
 #include <iostream>
 #include <chrono>
 #include <thread>
+#include <unistd.h> // for non-blocking input in UNIX
 #include "clock.h"
+
+bool kbhit() {
+    struct timeval tv = { 0, 0 };
+    fd_set readfds;
+    FD_ZERO(&readfds);
+    FD_SET(STDIN_FILENO, &readfds);
+    return select(STDIN_FILENO + 1, &readfds, NULL, NULL, &tv) == 1;
+}
 
 int main(int argc, char* argv[]) {
     if (argc != 4) {
@@ -17,10 +26,9 @@ int main(int argc, char* argv[]) {
         Clock clock(hour, minute, second);
 
         while (true) {
-            system("clear");
             clock.print();
 
-            if (std::cin.rdbuf()->in_avail() > 0) {
+            if (kbhit()) {
                 char ch;
                 std::cin >> ch;
                 if (ch == 'q' || ch == 'Q') {
