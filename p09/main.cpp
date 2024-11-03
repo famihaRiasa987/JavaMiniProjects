@@ -1,34 +1,38 @@
 #include <iostream>
-#include <string>
+#include <chrono>
+#include <thread>
 #include "clock.h"
 
 int main(int argc, char* argv[]) {
     if (argc != 4) {
-        std::cerr << "usage: clock <hour> <minutes> <seconds>" << std::endl;
+        std::cerr << "usage: clock <hour> <minutes> <seconds>\n";
         return -1;
     }
 
+    int hour = std::stoi(argv[1]);
+    int minute = std::stoi(argv[2]);
+    int second = std::stoi(argv[3]);
+
     try {
-        int hours = std::stoi(argv[1]);
-        int minutes = std::stoi(argv[2]);
-        int seconds = std::stoi(argv[3]);
+        Clock clock(hour, minute, second);
 
-        Clock clock(hours, minutes, seconds);
-        
-        std::string input;
         while (true) {
+            system("clear");
             clock.print();
-            std::cout << "Enter 'q' to quit or any key to increment: ";
-            std::getline(std::cin, input);
-            if (input == "q") break;
-            clock.tic();
-        }
 
+            if (std::cin.rdbuf()->in_avail() > 0) {
+                char ch;
+                std::cin >> ch;
+                if (ch == 'q' || ch == 'Q') {
+                    break;
+                }
+            }
+
+            clock.tic();
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+        }
     } catch (const std::out_of_range& e) {
-        std::cerr << e.what() << std::endl;
-        return -2;
-    } catch (const std::invalid_argument&) {
-        std::cerr << "Invalid input. Please provide integers for hour, minutes, and seconds." << std::endl;
+        std::cerr << e.what() << '\n';
         return -2;
     }
 

@@ -14,9 +14,10 @@ Clock::Clock(int hours, int minutes, int seconds)
 }
 
 void Clock::print() const {
-    std::cout << std::setw(2) << std::setfill('0') << _hours << ":"
-              << std::setw(2) << std::setfill('0') << _minutes << ":"
-              << std::setw(2) << std::setfill('0') << _seconds << std::endl;
+    std::cout << "The time is now "
+              << std::setw(2) << std::setfill('0') << _hours << " "
+              << std::setw(2) << std::setfill('0') << _minutes << " "
+              << std::setw(2) << std::setfill('0') << _seconds << "\n";
 }
 
 void Clock::tic() {
