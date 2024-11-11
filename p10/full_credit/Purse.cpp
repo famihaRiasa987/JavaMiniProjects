@@ -32,4 +32,41 @@ Purse::Purse(int pounds, int shillings, int pence)
 
 
 
+    Purse Purse::operator+ (const Purse& purse){
 
+        Purse result(_pounds + purse._pounds, _shillings + purse._shillings, _pence +purse._pence);
+        result.rationalize();
+        return result;
+
+    }
+
+    Purse Purse:: operator- (const Purse& purse){
+        Purse result(_pounds - purse._pounds, _shillings - purse._shillings, _pence - purse._pence);
+        result.rationalize();
+        return result;
+    }
+
+    Purse& Purse::operator+= (const Purse& purse){
+
+        _pounds += purse._pounds;
+        _shillings += purse._shillings;
+        _pence += purse._pence;
+
+        rationalize();
+        return *this;
+
+    }
+
+    Purse& Purse::operator-= (const Purse& purse){
+
+        _pounds -= purse._pounds;
+        _shillings -= purse._shillings;
+        _pence -= purse._pence;
+
+        rationalize();
+        return *this;
+
+    }
+
+    
+   
