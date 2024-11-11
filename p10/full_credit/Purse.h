@@ -24,8 +24,13 @@ public:
     Purse& operator++();
     Purse operator++(int);
 
+    Purse operator+ (const Purse& purse) const;
+    Purse operator- (const Purse& purse) const;
+
+
 
 };
+
 
 
 

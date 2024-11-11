@@ -24,6 +24,11 @@ Purse::Purse(int pounds, int shillings, int pence)
         rationalize();
         return *this;
     }
+    Purse Purse::operator++(int){
+        Purse temp = *this;
+        ++(*this);
+        return temp;
+    }
 
 
 
