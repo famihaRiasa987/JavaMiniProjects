@@ -1,4 +1,5 @@
-#include "Purse.h"
+
+#include "purse.h"
 
 
 Purse::Purse(int pounds, int shillings, int pence)
@@ -68,5 +69,29 @@ Purse::Purse(int pounds, int shillings, int pence)
 
     }
 
-    
-   
+
+void Purse::rationalize() {
+    if (_pence >= 12) {
+        _shillings += _pence / 12;
+        _pence %= 12;
+    } else if (_pence < 0) {
+        int borrow = (-_pence + 11) / 12;
+        _shillings -= borrow;
+        _pence += borrow * 12;
+    }
+
+    if (_shillings >= 20) {
+        _pounds += _shillings / 20;
+        _shillings %= 20;
+    } else if (_shillings < 0) {
+        int borrow = (-_shillings + 19) / 20;
+        _pounds -= borrow;
+        _shillings += borrow * 20;
+    }
+
+    if (_pounds < 0) {
+        _pounds = 0;
+        _shillings = 0;
+        _pence = 0;
+    }
+}
