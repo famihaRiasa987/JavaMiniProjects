@@ -1,5 +1,7 @@
 
 #include "purse.h"
+using namespace std;
+
 
 
 Purse::Purse(int pounds, int shillings, int pence)
@@ -13,12 +15,21 @@ Purse::Purse(int pounds, int shillings, int pence)
         return ost; 
 
     }
+istream& operator>>(istream& in, Purse& purse) {
+    char poundSign, shillingSign, penceSign;
+    int pounds, shillings, pence;
 
-    istream& operator>> (istream& ist, Purse& purse){
-        ist >> purse._pounds >> purse._shillings >> purse._pence;
-        return ist;
+    in >> poundSign >> pounds >> shillingSign >> shillings >> penceSign >> pence;
 
+    if (poundSign == '#' && shillingSign == 's' && penceSign == 'd') {
+        purse = Purse(pounds, shillings, pence);
     }
+    else {
+        in.setstate(ios::failbit); 
+    }
+
+    return in;
+}
 
     Purse& Purse::operator++(){
         _pence++;
