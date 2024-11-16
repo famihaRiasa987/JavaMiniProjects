@@ -3,28 +3,31 @@
 
 #include <iostream>
 #include <iomanip>
-#include <compare>
 
 class Date {
+private:
     int _year, _month, _day;
 
+    // Helper function for comparisons
+    int compare(const Date& rhs) const;
+
 public:
-    // Constructor with default values
-    Date(int year = 1970, int month = 1, int day = 1) : _year(year), _month(month), _day(day) {}
+    // Constructor with default values (January 1, 1970)
+    Date(int year = 1970, int month = 1, int day = 1);
 
-    // Three-way comparison operator for sorting and comparisons
-    auto operator<=>(const Date&) const = default;
+    // Comparison operators
+    bool operator==(const Date& rhs) const;
+    bool operator!=(const Date& rhs) const;
+    bool operator<(const Date& rhs) const;
+    bool operator<=(const Date& rhs) const;
+    bool operator>(const Date& rhs) const;
+    bool operator>=(const Date& rhs) const;
 
-    // Friend function for outputting dates in YYYY/MM/DD format
-    friend std::ostream& operator<<(std::ostream& ost, const Date& date) {
-        char old_fill = ost.fill();
-        ost << date._year << '/'
-            << std::setw(2) << std::setfill('0') << date._month << '/'
-            << std::setw(2) << std::setfill('0') << date._day;
-        ost.fill(old_fill);
-        return ost;
-    }
+    // Friend function for outputting Date in YYYY/MM/DD format
+    friend std::ostream& operator<<(std::ostream& os, const Date& date);
+
+    // Friend function for reading input in the format "YYYY M D"
+    friend std::istream& operator>>(std::istream& is, Date& date);
 };
 
-#endif
-
+#endif // DATE_H
