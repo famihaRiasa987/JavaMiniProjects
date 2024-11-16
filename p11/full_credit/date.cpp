@@ -1,16 +1,12 @@
 #include "Date.h"
 
-// Constructor
 Date::Date(int year, int month, int day) : _year(year), _month(month), _day(day) {}
-
-// Compare two dates
 int Date::compare(const Date& rhs) const {
     if (_year != rhs._year) return _year - rhs._year;
     if (_month != rhs._month) return _month - rhs._month;
     return _day - rhs._day;
 }
 
-// Comparison operators
 bool Date::operator==(const Date& rhs) const { return compare(rhs) == 0; }
 bool Date::operator!=(const Date& rhs) const { return compare(rhs) != 0; }
 bool Date::operator<(const Date& rhs) const { return compare(rhs) < 0; }
@@ -18,7 +14,6 @@ bool Date::operator<=(const Date& rhs) const { return compare(rhs) <= 0; }
 bool Date::operator>(const Date& rhs) const { return compare(rhs) > 0; }
 bool Date::operator>=(const Date& rhs) const { return compare(rhs) >= 0; }
 
-// Output in the format YYYY/MM/DD
 std::ostream& operator<<(std::ostream& os, const Date& date) {
     char old_fill = os.fill('0');
     os << date._year << '/' 
@@ -27,8 +22,6 @@ std::ostream& operator<<(std::ostream& os, const Date& date) {
     os.fill(old_fill);
     return os;
 }
-
-// Input in the format "YYYY M D"
 std::istream& operator>>(std::istream& is, Date& date) {
     is >> date._year >> date._month >> date._day;
     return is;
